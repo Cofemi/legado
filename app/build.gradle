@@ -216,7 +216,6 @@ dependencies {
     //room sql语句不高亮解决方法https://issuetracker.google.com/issues/234612964#comment6
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    //kapt("androidx.room:room-compiler:$room_version")
     ksp(libs.room.compiler)
     androidTestImplementation(libs.room.testing)
 
@@ -240,7 +239,7 @@ dependencies {
     //Glide
     implementation(libs.glide.glide)
     implementation(libs.glide.okhttp)
-    ksp(libs.glide.ksp)
+    //ksp(libs.glide.ksp)
 
     //Svg
     implementation(libs.androidsvg)
