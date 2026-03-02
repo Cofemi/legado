@@ -614,6 +614,8 @@
     <string name="dur_pos">当前位置：</string>
     <string name="precision_search">精准搜索</string>
     <string name="sort_search_results">排序搜索结果</string>
+    <string name="filter_book_name">按书名过滤</string>
+    <string name="filter_author">按作者过滤</string>
     <string name="service_starting">正在启动服务</string>
     <string name="empty">空</string>
     <string name="file_chooser">文件选择</string>

@@ -29,7 +29,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import splitties.init.appCtx
 import java.util.concurrent.Executors
-import kotlin.coroutines.coroutineContext
 import kotlin.math.min
 
 
@@ -77,6 +76,8 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
 
     private fun startSearch() {
         val precision = appCtx.getPrefBoolean(PreferKey.precisionSearch)
+        val filterBookName = appCtx.getPrefBoolean(PreferKey.filterBookName, true)
+        val filterAuthor = appCtx.getPrefBoolean(PreferKey.filterAuthor, true)
         var hasMore = false
         searchJob = scope.launch(searchPool!!) {
             flow {
@@ -93,8 +94,20 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                     WebBook.searchBookAwait(
                         it, searchKey, searchPage,
                         filter = { name, author ->
-                            !precision || name.contains(searchKey) ||
-                                    author.contains(searchKey)
+                            if (precision) {
+                                when {
+                                    filterBookName && filterAuthor -> 
+                                        name.contains(searchKey) && author.contains(searchKey)
+                                    filterBookName -> 
+                                        name.contains(searchKey)
+                                    filterAuthor -> 
+                                        author.contains(searchKey)
+                                    else -> 
+                                        true
+                                }
+                            } else {
+                                true
+                            }
                         })
                 }
             }.onEach { items ->

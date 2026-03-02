@@ -28,6 +28,8 @@ object PreferKey {
     const val hideNavigationBar = "hideNavigationBar"
     const val precisionSearch = "precisionSearch"
     const val sortSearchResults = "sortSearchResults"
+    const val filterBookName = "filterBookName"
+    const val filterAuthor = "filterAuthor"
     const val readAloudByPage = "readAloudByPage"
     const val ttsEngine = "appTtsEngine"
     const val ttsFollowSys = "ttsFollowSys"

@@ -90,6 +90,8 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
     private var booksFlowJob: Job? = null
     private var precisionSearchMenuItem: MenuItem? = null
     private var sortSearchResultsMenuItem: MenuItem? = null
+    private var filterBookNameMenuItem: MenuItem? = null
+    private var filterAuthorMenuItem: MenuItem? = null
     private var isManualStopSearch = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -113,6 +115,10 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         precisionSearchMenuItem?.isChecked = getPrefBoolean(PreferKey.precisionSearch)
         sortSearchResultsMenuItem = menu.findItem(R.id.menu_sort_search_results)
         sortSearchResultsMenuItem?.isChecked = getPrefBoolean(PreferKey.sortSearchResults, true)
+        filterBookNameMenuItem = menu.findItem(R.id.menu_filter_book_name)
+        filterBookNameMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookName, true)
+        filterAuthorMenuItem = menu.findItem(R.id.menu_filter_author)
+        filterAuthorMenuItem?.isChecked = getPrefBoolean(PreferKey.filterAuthor, true)
         return super.onCompatCreateOptionsMenu(menu)
     }
 
@@ -174,6 +180,26 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
                     !getPrefBoolean(PreferKey.sortSearchResults, true)
                 )
                 sortSearchResultsMenuItem?.isChecked = getPrefBoolean(PreferKey.sortSearchResults, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+            R.id.menu_filter_book_name -> {
+                putPrefBoolean(
+                    PreferKey.filterBookName,
+                    !getPrefBoolean(PreferKey.filterBookName, true)
+                )
+                filterBookNameMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookName, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+            R.id.menu_filter_author -> {
+                putPrefBoolean(
+                    PreferKey.filterAuthor,
+                    !getPrefBoolean(PreferKey.filterAuthor, true)
+                )
+                filterAuthorMenuItem?.isChecked = getPrefBoolean(PreferKey.filterAuthor, true)
                 searchView.query?.toString()?.trim()?.let {
                     searchView.setQuery(it, true)
                 }

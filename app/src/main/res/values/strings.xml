@@ -615,6 +615,8 @@
     <string name="dur_pos">Current location：</string>
     <string name="precision_search">Precise search</string>
     <string name="sort_search_results">Sort search results</string>
+    <string name="filter_book_name">Filter by book name</string>
+    <string name="filter_author">Filter by author</string>
     <string name="service_starting">Starting service</string>
     <string name="empty">Empty</string>
     <string name="file_chooser">File selection</string>

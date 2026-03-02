@@ -16,6 +16,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_filter_book_name"
+        android:checkable="true"
+        android:title="@string/filter_book_name"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_filter_author"
+        android:checkable="true"
+        android:title="@string/filter_author"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_source_manage"
         android:title="@string/book_source_manage"
         app:showAsAction="never" />
