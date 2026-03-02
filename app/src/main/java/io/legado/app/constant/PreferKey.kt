@@ -27,6 +27,7 @@ object PreferKey {
     const val clickActionBR = "clickActionBottomRight"
     const val hideNavigationBar = "hideNavigationBar"
     const val precisionSearch = "precisionSearch"
+    const val sortSearchResults = "sortSearchResults"
     const val readAloudByPage = "readAloudByPage"
     const val ttsEngine = "appTtsEngine"
     const val ttsFollowSys = "ttsFollowSys"

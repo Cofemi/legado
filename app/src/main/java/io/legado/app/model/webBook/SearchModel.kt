@@ -32,6 +32,7 @@ import java.util.concurrent.Executors
 import kotlin.coroutines.coroutineContext
 import kotlin.math.min
 
+
 class SearchModel(private val scope: CoroutineScope, private val callBack: CallBack) {
     val threadCount = AppConfig.threadCount
     private var searchPool: ExecutorCoroutineDispatcher? = null
@@ -106,7 +107,15 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                 currentCoroutineContext().ensureActive()
                 callBack.onSearchSuccess(searchBooks)
             }.onCompletion {
-                if (it == null) callBack.onSearchFinish(searchBooks.isEmpty(), hasMore)
+                if (it == null) {
+                    // 所有搜索结果出来后，根据偏好设置决定是否排序
+                    if (appCtx.getPrefBoolean(PreferKey.sortSearchResults, true)) {
+                        val sortedBooks = sortSearchResults(searchBooks, precision)
+                        searchBooks = sortedBooks
+                        callBack.onSearchSuccess(searchBooks)
+                    }
+                    callBack.onSearchFinish(searchBooks.isEmpty(), hasMore)
+                }
             }.catch {
                 AppLog.put("书源搜索出错\n${it.localizedMessage}", it)
             }.collect()
@@ -115,69 +124,68 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
 
     private suspend fun mergeItems(newDataS: List<SearchBook>, precision: Boolean) {
         if (newDataS.isNotEmpty()) {
-            val copyData = ArrayList(searchBooks)
-            val equalData = arrayListOf<SearchBook>()
-            val containsData = arrayListOf<SearchBook>()
-            val otherData = arrayListOf<SearchBook>()
-            copyData.forEach {
-                coroutineContext.ensureActive()
-                if (it.name == searchKey || it.author == searchKey) {
-                    equalData.add(it)
-                } else if (it.name.contains(searchKey) || it.author.contains(searchKey)) {
-                    containsData.add(it)
-                } else {
-                    otherData.add(it)
-                }
-            }
+            val existingBooks = searchBooks.toMutableList()
+            
+            // 处理新数据，保持原始顺序
             newDataS.forEach { nBook ->
-                coroutineContext.ensureActive()
-                if (nBook.name == searchKey || nBook.author == searchKey) {
-                    var hasSame = false
-                    equalData.forEach { pBook ->
-                        coroutineContext.ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
-                        equalData.add(nBook)
-                    }
-                } else if (nBook.name.contains(searchKey) || nBook.author.contains(searchKey)) {
-                    var hasSame = false
-                    containsData.forEach { pBook ->
-                        coroutineContext.ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
-                        containsData.add(nBook)
-                    }
-                } else if (!precision) {
-                    var hasSame = false
-                    otherData.forEach { pBook ->
-                        coroutineContext.ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
-                        otherData.add(nBook)
+                currentCoroutineContext().ensureActive()
+                
+                // 检查是否需要过滤
+                if (precision && !nBook.name.contains(searchKey) && !nBook.author.contains(searchKey)) {
+                    return@forEach
+                }
+                
+                // 检查是否已存在相同的书籍
+                var found = false
+                for (i in existingBooks.indices) {
+                    val pBook = existingBooks[i]
+                    if (pBook.name == nBook.name && pBook.author == nBook.author) {
+                        // 合并书源
+                        pBook.addOrigin(nBook.origin)
+                        found = true
+                        break
                     }
                 }
+                
+                // 如果不存在，添加到列表末尾
+                if (!found) {
+                    existingBooks.add(nBook)
+                }
             }
-            coroutineContext.ensureActive()
-            equalData.sortByDescending { it.origins.size }
-            equalData.addAll(containsData.sortedByDescending { it.origins.size })
-            if (!precision) {
-                equalData.addAll(otherData)
-            }
-            coroutineContext.ensureActive()
-            searchBooks = equalData
+            
+            currentCoroutineContext().ensureActive()
+            searchBooks = ArrayList(existingBooks)
         }
+    }
+    
+    /**
+     * 对搜索结果进行排序
+     * 按匹配程度和书源数量排序
+     */
+    private fun sortSearchResults(books: List<SearchBook>, precision: Boolean): ArrayList<SearchBook> {
+        val equalData = arrayListOf<SearchBook>()
+        val containsData = arrayListOf<SearchBook>()
+        val otherData = arrayListOf<SearchBook>()
+        
+        // 分类
+        books.forEach {
+            if (it.name == searchKey || it.author == searchKey) {
+                equalData.add(it)
+            } else if (it.name.contains(searchKey) || it.author.contains(searchKey)) {
+                containsData.add(it)
+            } else {
+                otherData.add(it)
+            }
+        }
+        
+        // 排序
+        equalData.sortByDescending { it.origins.size }
+        equalData.addAll(containsData.sortedByDescending { it.origins.size })
+        if (!precision) {
+            equalData.addAll(otherData)
+        }
+        
+        return equalData
     }
 
     fun pause() {

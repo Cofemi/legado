@@ -89,6 +89,7 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
     private var historyFlowJob: Job? = null
     private var booksFlowJob: Job? = null
     private var precisionSearchMenuItem: MenuItem? = null
+    private var sortSearchResultsMenuItem: MenuItem? = null
     private var isManualStopSearch = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -110,6 +111,8 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         this.menu = menu
         precisionSearchMenuItem = menu.findItem(R.id.menu_precision_search)
         precisionSearchMenuItem?.isChecked = getPrefBoolean(PreferKey.precisionSearch)
+        sortSearchResultsMenuItem = menu.findItem(R.id.menu_sort_search_results)
+        sortSearchResultsMenuItem?.isChecked = getPrefBoolean(PreferKey.sortSearchResults, true)
         return super.onCompatCreateOptionsMenu(menu)
     }
 
@@ -161,6 +164,16 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
                     !getPrefBoolean(PreferKey.precisionSearch)
                 )
                 precisionSearchMenuItem?.isChecked = getPrefBoolean(PreferKey.precisionSearch)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+            R.id.menu_sort_search_results -> {
+                putPrefBoolean(
+                    PreferKey.sortSearchResults,
+                    !getPrefBoolean(PreferKey.sortSearchResults, true)
+                )
+                sortSearchResultsMenuItem?.isChecked = getPrefBoolean(PreferKey.sortSearchResults, true)
                 searchView.query?.toString()?.trim()?.let {
                     searchView.setQuery(it, true)
                 }
