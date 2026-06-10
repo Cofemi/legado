@@ -2,6 +2,7 @@ package io.legado.app.model.webBook
 
 import io.legado.app.constant.AppConst
 import io.legado.app.constant.AppLog
+import io.legado.app.constant.BookType
 import io.legado.app.constant.PreferKey
 import io.legado.app.data.appDb
 import io.legado.app.data.entities.BookSourcePart
@@ -10,6 +11,7 @@ import io.legado.app.exception.NoStackTraceException
 import io.legado.app.help.config.AppConfig
 import io.legado.app.ui.book.search.SearchScope
 import io.legado.app.utils.getPrefBoolean
+import io.legado.app.utils.getPrefString
 import io.legado.app.utils.mapParallelSafe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
@@ -78,6 +80,15 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
         val precision = appCtx.getPrefBoolean(PreferKey.precisionSearch)
         val filterBookName = appCtx.getPrefBoolean(PreferKey.filterBookName, true)
         val filterAuthor = appCtx.getPrefBoolean(PreferKey.filterAuthor, true)
+        val filterText = appCtx.getPrefBoolean(PreferKey.filterBookTypeText, true)
+        val filterAudio = appCtx.getPrefBoolean(PreferKey.filterBookTypeAudio, true)
+        val filterImage = appCtx.getPrefBoolean(PreferKey.filterBookTypeImage, true)
+        val filterWebFile = appCtx.getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
+        val filterKeywords = appCtx.getPrefString(PreferKey.filterKeywords, "")
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() }
+            ?: emptyList()
         var hasMore = false
         searchJob = scope.launch(searchPool!!) {
             flow {
@@ -116,7 +127,7 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                 }
                 hasMore = hasMore || items.isNotEmpty()
                 appDb.searchBookDao.insert(*items.toTypedArray())
-                mergeItems(items, precision)
+                mergeItems(items, precision, filterText, filterAudio, filterImage, filterWebFile, filterKeywords)
                 currentCoroutineContext().ensureActive()
                 callBack.onSearchSuccess(searchBooks)
             }.onCompletion {
@@ -135,19 +146,56 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
         }
     }
 
-    private suspend fun mergeItems(newDataS: List<SearchBook>, precision: Boolean) {
+    private suspend fun mergeItems(
+        newDataS: List<SearchBook>,
+        precision: Boolean,
+        filterText: Boolean,
+        filterAudio: Boolean,
+        filterImage: Boolean,
+        filterWebFile: Boolean,
+        filterKeywords: List<String>
+    ) {
         if (newDataS.isNotEmpty()) {
             val existingBooks = searchBooks.toMutableList()
-            
+
             // 处理新数据，保持原始顺序
             newDataS.forEach { nBook ->
                 currentCoroutineContext().ensureActive()
-                
+
                 // 检查是否需要过滤
                 if (precision && !nBook.name.contains(searchKey) && !nBook.author.contains(searchKey)) {
                     return@forEach
                 }
-                
+
+                // 类型过滤
+                val bookType = nBook.type
+                val isText = bookType and BookType.text != 0
+                val isAudio = bookType and BookType.audio != 0
+                val isImage = bookType and BookType.image != 0
+                val isWebFile = bookType and BookType.webFile != 0
+
+                val shouldFilter = when {
+                    isText && !filterText -> true
+                    isAudio && !filterAudio -> true
+                    isImage && !filterImage -> true
+                    isWebFile && !filterWebFile -> true
+                    else -> false
+                }
+                if (shouldFilter) {
+                    return@forEach
+                }
+
+                // 关键词过滤
+                if (filterKeywords.isNotEmpty()) {
+                    val checkText = "${nBook.name}${nBook.author}${nBook.intro ?: ""}"
+                    val shouldFilterByKeyword = filterKeywords.any { keyword ->
+                        checkText.contains(keyword, ignoreCase = true)
+                    }
+                    if (shouldFilterByKeyword) {
+                        return@forEach
+                    }
+                }
+
                 // 检查是否已存在相同的书籍
                 var found = false
                 for (i in existingBooks.indices) {
@@ -159,13 +207,13 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                         break
                     }
                 }
-                
+
                 // 如果不存在，添加到列表末尾
                 if (!found) {
                     existingBooks.add(nBook)
                 }
             }
-            
+
             currentCoroutineContext().ensureActive()
             searchBooks = ArrayList(existingBooks)
         }

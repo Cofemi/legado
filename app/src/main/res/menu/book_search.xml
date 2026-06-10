@@ -28,8 +28,32 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_source_manage"
-        android:title="@string/book_source_manage"
+        android:id="@+id/menu_filter_text"
+        android:checkable="true"
+        android:title="@string/filter_text"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_filter_audio"
+        android:checkable="true"
+        android:title="@string/filter_audio"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_filter_image"
+        android:checkable="true"
+        android:title="@string/filter_image"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_filter_web_file"
+        android:checkable="true"
+        android:title="@string/filter_web_file"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_filter_keywords"
+        android:title="@string/filter_keywords"
         app:showAsAction="never" />
 
     <item

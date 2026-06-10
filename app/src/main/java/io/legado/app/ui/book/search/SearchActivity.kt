@@ -41,9 +41,11 @@ import io.legado.app.utils.applyNavigationBarMargin
 import io.legado.app.utils.applyNavigationBarPadding
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.getPrefBoolean
+import io.legado.app.utils.getPrefString
 import io.legado.app.utils.gone
 import io.legado.app.utils.invisible
 import io.legado.app.utils.putPrefBoolean
+import io.legado.app.utils.putPrefString
 import io.legado.app.utils.setEdgeEffectColor
 import io.legado.app.utils.showDialogFragment
 import io.legado.app.utils.startActivity
@@ -85,13 +87,16 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         binding.titleBar.findViewById(R.id.search_view)
     }
     private var menu: Menu? = null
-    private var groups: List<String>? = null
     private var historyFlowJob: Job? = null
     private var booksFlowJob: Job? = null
     private var precisionSearchMenuItem: MenuItem? = null
     private var sortSearchResultsMenuItem: MenuItem? = null
     private var filterBookNameMenuItem: MenuItem? = null
     private var filterAuthorMenuItem: MenuItem? = null
+    private var filterTextMenuItem: MenuItem? = null
+    private var filterAudioMenuItem: MenuItem? = null
+    private var filterImageMenuItem: MenuItem? = null
+    private var filterWebFileMenuItem: MenuItem? = null
     private var isManualStopSearch = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -119,46 +124,18 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         filterBookNameMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookName, true)
         filterAuthorMenuItem = menu.findItem(R.id.menu_filter_author)
         filterAuthorMenuItem?.isChecked = getPrefBoolean(PreferKey.filterAuthor, true)
+        filterTextMenuItem = menu.findItem(R.id.menu_filter_text)
+        filterTextMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeText, true)
+        filterAudioMenuItem = menu.findItem(R.id.menu_filter_audio)
+        filterAudioMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeAudio, true)
+        filterImageMenuItem = menu.findItem(R.id.menu_filter_image)
+        filterImageMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeImage, true)
+        filterWebFileMenuItem = menu.findItem(R.id.menu_filter_web_file)
+        filterWebFileMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
         return super.onCompatCreateOptionsMenu(menu)
     }
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
-        menu.transaction {
-            menu.removeGroup(R.id.menu_group_1)
-            menu.removeGroup(R.id.menu_group_2)
-            var hasChecked = false
-            val searchScopeNames = viewModel.searchScope.displayNames
-            if (viewModel.searchScope.isSource()) {
-                menu.add(R.id.menu_group_1, Menu.NONE, Menu.NONE, searchScopeNames.first()).apply {
-                    isChecked = true
-                    hasChecked = true
-                }
-            }
-            val allSourceMenu =
-                menu.add(R.id.menu_group_2, R.id.menu_1, Menu.NONE, getString(R.string.all_source))
-                    .apply {
-                        if (searchScopeNames.isEmpty()) {
-                            isChecked = true
-                            hasChecked = true
-                        }
-                    }
-            groups?.forEach {
-                if (searchScopeNames.contains(it)) {
-                    menu.add(R.id.menu_group_1, Menu.NONE, Menu.NONE, it).apply {
-                        isChecked = true
-                        hasChecked = true
-                    }
-                } else {
-                    menu.add(R.id.menu_group_2, Menu.NONE, Menu.NONE, it)
-                }
-            }
-            if (!hasChecked) {
-                viewModel.searchScope.update("")
-                allSourceMenu.isChecked = true
-            }
-            menu.setGroupCheckable(R.id.menu_group_1, true, false)
-            menu.setGroupCheckable(R.id.menu_group_2, true, true)
-        }
         return super.onMenuOpened(featureId, menu)
     }
 
@@ -205,17 +182,53 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
                 }
             }
 
-            R.id.menu_search_scope -> alertSearchScope()
-            R.id.menu_source_manage -> startActivity<BookSourceActivity>()
-            R.id.menu_log -> showDialogFragment(AppLogDialog())
-            R.id.menu_1 -> viewModel.searchScope.update("")
-            else -> {
-                if (item.groupId == R.id.menu_group_1) {
-                    viewModel.searchScope.remove(item.title.toString())
-                } else if (item.groupId == R.id.menu_group_2) {
-                    viewModel.searchScope.update(item.title.toString())
+            R.id.menu_filter_text -> {
+                putPrefBoolean(
+                    PreferKey.filterBookTypeText,
+                    !getPrefBoolean(PreferKey.filterBookTypeText, true)
+                )
+                filterTextMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeText, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
                 }
             }
+
+            R.id.menu_filter_audio -> {
+                putPrefBoolean(
+                    PreferKey.filterBookTypeAudio,
+                    !getPrefBoolean(PreferKey.filterBookTypeAudio, true)
+                )
+                filterAudioMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeAudio, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+
+            R.id.menu_filter_image -> {
+                putPrefBoolean(
+                    PreferKey.filterBookTypeImage,
+                    !getPrefBoolean(PreferKey.filterBookTypeImage, true)
+                )
+                filterImageMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeImage, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+
+            R.id.menu_filter_web_file -> {
+                putPrefBoolean(
+                    PreferKey.filterBookTypeWebFile,
+                    !getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
+                )
+                filterWebFileMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+
+            R.id.menu_search_scope -> alertSearchScope()
+            R.id.menu_filter_keywords -> alertFilterKeywords()
+            R.id.menu_log -> showDialogFragment(AppLogDialog())
         }
         return super.onCompatOptionsItemSelected(item)
     }
@@ -343,11 +356,6 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         }
         viewModel.searchBookLiveData.observe(this) {
             adapter.setItems(it)
-        }
-        lifecycleScope.launch {
-            appDb.bookSourceDao.flowEnabledGroups().collect {
-                groups = it
-            }
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -556,6 +564,35 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
 
     private fun alertSearchScope() {
         showDialogFragment<SearchScopeDialog>()
+    }
+
+    private fun alertFilterKeywords() {
+        val currentKeywords = getPrefString(PreferKey.filterKeywords, "")
+        val editText = com.google.android.material.textfield.TextInputEditText(this).apply {
+            setText(currentKeywords)
+            hint = getString(R.string.filter_keywords_hint)
+            setSingleLine(false)
+            layoutParams = android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                val padding = (8 * resources.displayMetrics.density).toInt()
+                setMargins(padding, padding, padding, padding)
+            }
+        }
+
+        alert(R.string.filter_keywords) {
+            customView { editText }
+            yesButton {
+                val keywords = editText.text?.toString()?.trim() ?: ""
+                putPrefString(PreferKey.filterKeywords, keywords)
+            }
+            noButton {
+                if (currentKeywords?.isNotEmpty() == true) {
+                    putPrefString(PreferKey.filterKeywords, "")
+                }
+            }
+        }
     }
 
     private fun alertClearHistory() {

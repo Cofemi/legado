@@ -617,6 +617,14 @@
     <string name="sort_search_results">Sort search results</string>
     <string name="filter_book_name">Filter by book name</string>
     <string name="filter_author">Filter by author</string>
+    <string name="filter_book_type">按类型过滤</string>
+    <string name="filter_text">小说</string>
+    <string name="filter_audio">有声书</string>
+    <string name="filter_image">漫画</string>
+    <string name="filter_web_file">下载站点</string>
+    <string name="filter_keywords">过滤关键词</string>
+    <string name="filter_keywords_hint">输入排除关键词，多个用逗号分隔</string>
+    <string name="filter_keywords_empty">暂无过滤关键词</string>
     <string name="service_starting">Starting service</string>
     <string name="empty">Empty</string>
     <string name="file_chooser">File selection</string>
