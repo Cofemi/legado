@@ -2,7 +2,6 @@ package io.legado.app.model.webBook
 
 import io.legado.app.constant.AppConst
 import io.legado.app.constant.AppLog
-import io.legado.app.constant.BookType
 import io.legado.app.constant.PreferKey
 import io.legado.app.data.appDb
 import io.legado.app.data.entities.BookSourcePart
@@ -77,13 +76,9 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
     }
 
     private fun startSearch() {
-        val precision = appCtx.getPrefBoolean(PreferKey.precisionSearch)
-        val filterBookName = appCtx.getPrefBoolean(PreferKey.filterBookName, true)
-        val filterAuthor = appCtx.getPrefBoolean(PreferKey.filterAuthor, true)
-        val filterText = appCtx.getPrefBoolean(PreferKey.filterBookTypeText, true)
-        val filterAudio = appCtx.getPrefBoolean(PreferKey.filterBookTypeAudio, true)
-        val filterImage = appCtx.getPrefBoolean(PreferKey.filterBookTypeImage, true)
-        val filterWebFile = appCtx.getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
+        val searchFilterMode = appCtx.getPrefString(
+            PreferKey.searchFilterMode, PreferKey.searchFilterModeNone
+        )
         val filterKeywords = appCtx.getPrefString(PreferKey.filterKeywords, "")
             ?.split(",")
             ?.map { it.trim() }
@@ -105,19 +100,10 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                     WebBook.searchBookAwait(
                         it, searchKey, searchPage,
                         filter = { name, author ->
-                            if (precision) {
-                                when {
-                                    filterBookName && filterAuthor -> 
-                                        name.contains(searchKey) && author.contains(searchKey)
-                                    filterBookName -> 
-                                        name.contains(searchKey)
-                                    filterAuthor -> 
-                                        author.contains(searchKey)
-                                    else -> 
-                                        true
-                                }
-                            } else {
-                                true
+                            when (searchFilterMode) {
+                                PreferKey.searchFilterModeName -> name.contains(searchKey)
+                                PreferKey.searchFilterModeAuthor -> author.contains(searchKey)
+                                else -> true
                             }
                         })
                 }
@@ -127,14 +113,17 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                 }
                 hasMore = hasMore || items.isNotEmpty()
                 appDb.searchBookDao.insert(*items.toTypedArray())
-                mergeItems(items, precision, filterText, filterAudio, filterImage, filterWebFile, filterKeywords)
+                mergeItems(items, searchFilterMode, filterKeywords)
                 currentCoroutineContext().ensureActive()
                 callBack.onSearchSuccess(searchBooks)
             }.onCompletion {
                 if (it == null) {
                     // 所有搜索结果出来后，根据偏好设置决定是否排序
                     if (appCtx.getPrefBoolean(PreferKey.sortSearchResults, true)) {
-                        val sortedBooks = sortSearchResults(searchBooks, precision)
+                        val sortedBooks = sortSearchResults(
+                            searchBooks,
+                            searchFilterMode != PreferKey.searchFilterModeNone
+                        )
                         searchBooks = sortedBooks
                         callBack.onSearchSuccess(searchBooks)
                     }
@@ -148,11 +137,7 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
 
     private suspend fun mergeItems(
         newDataS: List<SearchBook>,
-        precision: Boolean,
-        filterText: Boolean,
-        filterAudio: Boolean,
-        filterImage: Boolean,
-        filterWebFile: Boolean,
+        searchFilterMode: String?,
         filterKeywords: List<String>
     ) {
         if (newDataS.isNotEmpty()) {
@@ -163,25 +148,12 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
                 currentCoroutineContext().ensureActive()
 
                 // 检查是否需要过滤
-                if (precision && !nBook.name.contains(searchKey) && !nBook.author.contains(searchKey)) {
-                    return@forEach
-                }
-
-                // 类型过滤
-                val bookType = nBook.type
-                val isText = bookType and BookType.text != 0
-                val isAudio = bookType and BookType.audio != 0
-                val isImage = bookType and BookType.image != 0
-                val isWebFile = bookType and BookType.webFile != 0
-
-                val shouldFilter = when {
-                    isText && !filterText -> true
-                    isAudio && !filterAudio -> true
-                    isImage && !filterImage -> true
-                    isWebFile && !filterWebFile -> true
+                val needFilter = when (searchFilterMode) {
+                    PreferKey.searchFilterModeName -> !nBook.name.contains(searchKey)
+                    PreferKey.searchFilterModeAuthor -> !nBook.author.contains(searchKey)
                     else -> false
                 }
-                if (shouldFilter) {
+                if (needFilter) {
                     return@forEach
                 }
 

@@ -5,50 +5,37 @@
 
     <item
         android:id="@+id/menu_precision_search"
-        android:checkable="true"
         android:title="@string/precision_search"
-        app:showAsAction="never" />
+        app:showAsAction="never">
+
+        <menu>
+
+            <group
+                android:id="@+id/menu_group_search_filter"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/menu_filter_book_name"
+                    android:title="@string/filter_book_name" />
+
+                <item
+                    android:id="@+id/menu_filter_author"
+                    android:title="@string/filter_author" />
+
+                <item
+                    android:id="@+id/menu_no_filter"
+                    android:title="@string/no_filter" />
+
+            </group>
+
+        </menu>
+
+    </item>
 
     <item
         android:id="@+id/menu_sort_search_results"
         android:checkable="true"
         android:title="@string/sort_search_results"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_book_name"
-        android:checkable="true"
-        android:title="@string/filter_book_name"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_author"
-        android:checkable="true"
-        android:title="@string/filter_author"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_text"
-        android:checkable="true"
-        android:title="@string/filter_text"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_audio"
-        android:checkable="true"
-        android:title="@string/filter_audio"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_image"
-        android:checkable="true"
-        android:title="@string/filter_image"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_web_file"
-        android:checkable="true"
-        android:title="@string/filter_web_file"
         app:showAsAction="never" />
 
     <item

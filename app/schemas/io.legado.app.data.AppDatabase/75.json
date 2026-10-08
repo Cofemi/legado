@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 75,
-    "identityHash": "e22b36ff0280a224a30d08dd6e9bd7be",
+    "identityHash": "475db79daeb338a9ba3d132dd4c2a976",
     "entities": [
       {
         "tableName": "books",
@@ -53,44 +53,37 @@
           {
             "fieldPath": "kind",
             "columnName": "kind",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "customTag",
             "columnName": "customTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "coverUrl",
             "columnName": "coverUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "customCoverUrl",
             "columnName": "customCoverUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "intro",
             "columnName": "intro",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "customIntro",
             "columnName": "customIntro",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "charset",
             "columnName": "charset",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "type",
@@ -109,8 +102,7 @@
           {
             "fieldPath": "latestChapterTitle",
             "columnName": "latestChapterTitle",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "latestChapterTime",
@@ -143,8 +135,7 @@
           {
             "fieldPath": "durChapterTitle",
             "columnName": "durChapterTitle",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "durChapterIndex",
@@ -170,8 +161,7 @@
           {
             "fieldPath": "wordCount",
             "columnName": "wordCount",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "canUpdate",
@@ -197,14 +187,12 @@
           {
             "fieldPath": "variable",
             "columnName": "variable",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "readConfig",
             "columnName": "readConfig",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "syncTime",
@@ -231,8 +219,7 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_books_name_author` ON `${TABLE_NAME}` (`name`, `author`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "book_groups",
@@ -253,8 +240,7 @@
           {
             "fieldPath": "cover",
             "columnName": "cover",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "order",
@@ -289,9 +275,7 @@
           "columnNames": [
             "groupId"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "book_sources",
@@ -312,8 +296,7 @@
           {
             "fieldPath": "bookSourceGroup",
             "columnName": "bookSourceGroup",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "bookSourceType",
@@ -324,8 +307,7 @@
           {
             "fieldPath": "bookUrlPattern",
             "columnName": "bookUrlPattern",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "customOrder",
@@ -351,63 +333,53 @@
           {
             "fieldPath": "jsLib",
             "columnName": "jsLib",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "enabledCookieJar",
             "columnName": "enabledCookieJar",
             "affinity": "INTEGER",
-            "notNull": false,
             "defaultValue": "0"
           },
           {
             "fieldPath": "concurrentRate",
             "columnName": "concurrentRate",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "header",
             "columnName": "header",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginUrl",
             "columnName": "loginUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginUi",
             "columnName": "loginUi",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginCheckJs",
             "columnName": "loginCheckJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "coverDecodeJs",
             "columnName": "coverDecodeJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "bookSourceComment",
             "columnName": "bookSourceComment",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "variableComment",
             "columnName": "variableComment",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "lastUpdateTime",
@@ -430,56 +402,47 @@
           {
             "fieldPath": "exploreUrl",
             "columnName": "exploreUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "exploreScreen",
             "columnName": "exploreScreen",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleExplore",
             "columnName": "ruleExplore",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "searchUrl",
             "columnName": "searchUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleSearch",
             "columnName": "ruleSearch",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleBookInfo",
             "columnName": "ruleBookInfo",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleToc",
             "columnName": "ruleToc",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleContent",
             "columnName": "ruleContent",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleReview",
             "columnName": "ruleReview",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -498,8 +461,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_book_sources_bookSourceUrl` ON `${TABLE_NAME}` (`bookSourceUrl`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "chapters",
@@ -556,50 +518,42 @@
           {
             "fieldPath": "resourceUrl",
             "columnName": "resourceUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "tag",
             "columnName": "tag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "wordCount",
             "columnName": "wordCount",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "start",
             "columnName": "start",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "end",
             "columnName": "end",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "startFragmentId",
             "columnName": "startFragmentId",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "endFragmentId",
             "columnName": "endFragmentId",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "variable",
             "columnName": "variable",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -664,8 +618,7 @@
           {
             "fieldPath": "group",
             "columnName": "group",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "pattern",
@@ -684,8 +637,7 @@
           {
             "fieldPath": "scope",
             "columnName": "scope",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "scopeTitle",
@@ -704,8 +656,7 @@
           {
             "fieldPath": "excludeScope",
             "columnName": "excludeScope",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "isEnabled",
@@ -752,8 +703,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_replace_rules_id` ON `${TABLE_NAME}` (`id`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "searchBooks",
@@ -798,32 +748,27 @@
           {
             "fieldPath": "kind",
             "columnName": "kind",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "coverUrl",
             "columnName": "coverUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "intro",
             "columnName": "intro",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "wordCount",
             "columnName": "wordCount",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "latestChapterTitle",
             "columnName": "latestChapterTitle",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "tocUrl",
@@ -840,8 +785,7 @@
           {
             "fieldPath": "variable",
             "columnName": "variable",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "originOrder",
@@ -852,8 +796,7 @@
           {
             "fieldPath": "chapterWordCountText",
             "columnName": "chapterWordCountText",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "chapterWordCount",
@@ -949,8 +892,7 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_search_keywords_word` ON `${TABLE_NAME}` (`word`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "cookies",
@@ -985,8 +927,7 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_cookies_url` ON `${TABLE_NAME}` (`url`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "rssSources",
@@ -1013,14 +954,12 @@
           {
             "fieldPath": "sourceGroup",
             "columnName": "sourceGroup",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sourceComment",
             "columnName": "sourceComment",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "enabled",
@@ -1031,63 +970,53 @@
           {
             "fieldPath": "variableComment",
             "columnName": "variableComment",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "jsLib",
             "columnName": "jsLib",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "enabledCookieJar",
             "columnName": "enabledCookieJar",
             "affinity": "INTEGER",
-            "notNull": false,
             "defaultValue": "0"
           },
           {
             "fieldPath": "concurrentRate",
             "columnName": "concurrentRate",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "header",
             "columnName": "header",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginUrl",
             "columnName": "loginUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginUi",
             "columnName": "loginUi",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginCheckJs",
             "columnName": "loginCheckJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "coverDecodeJs",
             "columnName": "coverDecodeJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sortUrl",
             "columnName": "sortUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "singleUrl",
@@ -1105,74 +1034,62 @@
           {
             "fieldPath": "ruleArticles",
             "columnName": "ruleArticles",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleNextPage",
             "columnName": "ruleNextPage",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleTitle",
             "columnName": "ruleTitle",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "rulePubDate",
             "columnName": "rulePubDate",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleDescription",
             "columnName": "ruleDescription",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleImage",
             "columnName": "ruleImage",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleLink",
             "columnName": "ruleLink",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "ruleContent",
             "columnName": "ruleContent",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "contentWhitelist",
             "columnName": "contentWhitelist",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "contentBlacklist",
             "columnName": "contentBlacklist",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "shouldOverrideUrlLoading",
             "columnName": "shouldOverrideUrlLoading",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "style",
             "columnName": "style",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "enableJs",
@@ -1191,8 +1108,7 @@
           {
             "fieldPath": "injectJs",
             "columnName": "injectJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "lastUpdateTime",
@@ -1225,8 +1141,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_rssSources_sourceUrl` ON `${TABLE_NAME}` (`sourceUrl`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "bookmarks",
@@ -1298,8 +1213,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_bookmarks_bookName_bookAuthor` ON `${TABLE_NAME}` (`bookName`, `bookAuthor`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "rssArticles",
@@ -1338,26 +1252,22 @@
           {
             "fieldPath": "pubDate",
             "columnName": "pubDate",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "content",
             "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "image",
             "columnName": "image",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "group",
@@ -1375,8 +1285,7 @@
           {
             "fieldPath": "variable",
             "columnName": "variable",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1385,9 +1294,7 @@
             "origin",
             "link"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "rssReadRecords",
@@ -1402,14 +1309,12 @@
           {
             "fieldPath": "title",
             "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "readTime",
             "columnName": "readTime",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "read",
@@ -1423,9 +1328,7 @@
           "columnNames": [
             "record"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "rssStars",
@@ -1464,26 +1367,22 @@
           {
             "fieldPath": "pubDate",
             "columnName": "pubDate",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "content",
             "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "image",
             "columnName": "image",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "group",
@@ -1495,8 +1394,7 @@
           {
             "fieldPath": "variable",
             "columnName": "variable",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1505,9 +1403,7 @@
             "origin",
             "link"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "txtTocRules",
@@ -1534,8 +1430,7 @@
           {
             "fieldPath": "example",
             "columnName": "example",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "serialNumber",
@@ -1555,9 +1450,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "readRecord",
@@ -1596,9 +1489,7 @@
             "deviceId",
             "bookName"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "httpTTS",
@@ -1625,52 +1516,44 @@
           {
             "fieldPath": "contentType",
             "columnName": "contentType",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "concurrentRate",
             "columnName": "concurrentRate",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "'0'"
           },
           {
             "fieldPath": "loginUrl",
             "columnName": "loginUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "loginUi",
             "columnName": "loginUi",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "header",
             "columnName": "header",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "jsLib",
             "columnName": "jsLib",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "enabledCookieJar",
             "columnName": "enabledCookieJar",
             "affinity": "INTEGER",
-            "notNull": false,
             "defaultValue": "0"
           },
           {
             "fieldPath": "loginCheckJs",
             "columnName": "loginCheckJs",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "lastUpdateTime",
@@ -1685,9 +1568,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "caches",
@@ -1702,8 +1583,7 @@
           {
             "fieldPath": "value",
             "columnName": "value",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "deadline",
@@ -1728,8 +1608,7 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_caches_key` ON `${TABLE_NAME}` (`key`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "ruleSubs",
@@ -1783,55 +1662,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "dictRules",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `urlRule` TEXT NOT NULL, `showRule` TEXT NOT NULL, `enabled` INTEGER NOT NULL DEFAULT 1, `sortNumber` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`name`))",
-        "fields": [
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "urlRule",
-            "columnName": "urlRule",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "showRule",
-            "columnName": "showRule",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "enabled",
-            "columnName": "enabled",
-            "affinity": "INTEGER",
-            "notNull": true,
-            "defaultValue": "1"
-          },
-          {
-            "fieldPath": "sortNumber",
-            "columnName": "sortNumber",
-            "affinity": "INTEGER",
-            "notNull": true,
-            "defaultValue": "0"
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "name"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "keyboardAssists",
@@ -1872,9 +1703,7 @@
             "type",
             "key"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "servers",
@@ -1901,8 +1730,7 @@
           {
             "fieldPath": "config",
             "columnName": "config",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sortNumber",
@@ -1916,9 +1744,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       }
     ],
     "views": [
@@ -1929,7 +1755,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e22b36ff0280a224a30d08dd6e9bd7be')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '475db79daeb338a9ba3d132dd4c2a976')"
     ]
   }
 }

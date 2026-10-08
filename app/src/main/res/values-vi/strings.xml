@@ -162,8 +162,6 @@
     <string name="can_not_open">Mở thất bại</string>
     <string name="can_not_share">Chia sẻ thất bại</string>
     <string name="no_chapter">Không có chương</string>
-    <string name="add_url">Thêm URL</string>
-    <string name="add_book_url">Thêm URL sách</string>
     <string name="background">Nền</string>
     <string name="author">Tác giả</string>
     <string name="author_show">Tác giả: %s</string>
@@ -873,7 +871,6 @@
     <string name="export_file_name">Xuất tên tệp</string>
     <string name="reset">Đặt lại</string>
     <string name="null_url">URL trống</string>
-    <string name="dict">Từ điển</string>
     <string name="unknown_error">lỗi không xác định</string>
     <string name="export_no_chapter_name">Không xuất tên chương</string>
     <string name="autobackup_fail">Tự động sao lưu thất bại\n%s</string>
@@ -1005,7 +1002,6 @@
     <string name="download_book_success">Tải xuống thành công</string>
     <string name="download_book_fail">Tải xuống thất bại</string>
     <string name="upload_to_remote">Tải lên</string>
-    <string name="add_remote_book">Sách từ xa</string>
     <string name="bitmap_cache_size_summary">Kích thước bộ đệm tối đa hiện tại %1$s MB</string>
     <string name="bitmap_cache_size">Kích thước bộ đệm bitmap</string>
     <string name="image_retain_number_summary">Giữ lại số chương đã đọc %s</string>
@@ -1014,7 +1010,6 @@
     <string name="error_decode_bitmap">Giải mã bitmap thất bại</string>
     <string name="error_image_url_empty">URL hình ảnh trống, kiểm tra quy tắc thay thế</string>
     <string name="variable_comment">Mô tả biến (variableComment)</string>
-    <string name="remote_book">Sách từ xa</string>
     <string name="reading_time_sort">Sắp xếp theo thời lượng đọc</string>
     <string name="last_read_time_sort">Sắp xếp theo thời gian đọc</string>
     <string name="reading_time_tag">Thời lượng đọc:</string>
@@ -1085,13 +1080,8 @@
     <string name="clear_webview_data">Xóa dữ liệu WebView</string>
     <string name="clear_webview_data_summary">Xóa tất cả dữ liệu của trình duyệt tích hợp</string>
     <string name="source_tab_list">Danh sách</string>
-    <string name="dict_rule">Quy tắc từ điển</string>
-    <string name="config_dict_rule">Cấu hình quy tắc từ điển</string>
     <string name="create">Tạo mới</string>
-    <string name="url_rule">quy tắc url(urlRule)</string>
-    <string name="show_rule">hiển thị quy tắc(showRule)</string>
     <string name="config_txt_toc_rule">Cấu hình quy tắc thư mục TXT</string>
-    <string name="import_dict_rule">Nhập quy tắc từ điển</string>
     <string name="keep_group">Giữ nhóm</string>
     <string name="server_config">Cấu hình máy chủ</string>
     <string name="sure_upload">URL webDav từ xa đã tồn tại, tiếp tục?</string>

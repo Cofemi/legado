@@ -53,9 +53,6 @@ by appCtx.getSharedPreferences("local", Context.MODE_PRIVATE) {
     val bookSourcesHelpVersionIsLast: Boolean
         get() = isLastVersion(1, "bookSourceHelpVersion", "firstOpenBookSources")
 
-    val webDavBookHelpVersionIsLast: Boolean
-        get() = isLastVersion(1, "webDavBookHelpVersion", "firstOpenWebDavBook")
-
     val ruleHelpVersionIsLast: Boolean
         get() = isLastVersion(1, "ruleHelpVersion")
 
@@ -67,9 +64,6 @@ by appCtx.getSharedPreferences("local", Context.MODE_PRIVATE) {
 
     val needUpRssSources: Boolean
         get() = !isLastVersion(6, "rssSourceVersion")
-
-    val needUpDictRule: Boolean
-        get() = !isLastVersion(2, "needUpDictRule")
 
     var versionCode
         get() = getLong(versionCodeKey, 0)

@@ -14,7 +14,6 @@ import io.legado.app.data.entities.Book
 import io.legado.app.data.entities.BookGroup
 import io.legado.app.data.entities.BookSource
 import io.legado.app.data.entities.Bookmark
-import io.legado.app.data.entities.DictRule
 import io.legado.app.data.entities.HttpTTS
 import io.legado.app.data.entities.KeyboardAssist
 import io.legado.app.data.entities.ReadRecord
@@ -160,9 +159,6 @@ object Restore {
         }
         fileToListT<HttpTTS>(path, "httpTTS.json")?.let {
             appDb.httpTTSDao.insert(*it.toTypedArray())
-        }
-        fileToListT<DictRule>(path, "dictRule.json")?.let {
-            appDb.dictRuleDao.insert(*it.toTypedArray())
         }
         fileToListT<KeyboardAssist>(path, "keyboardAssists.json")?.let {
             appDb.keyboardAssistsDao.insert(*it.toTypedArray())

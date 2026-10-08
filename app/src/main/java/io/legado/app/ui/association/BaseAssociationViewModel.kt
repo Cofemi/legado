@@ -32,9 +32,6 @@ abstract class BaseAssociationViewModel(application: Application) : BaseViewMode
             map.containsKey("themeName") ->
                 successLive.postValue("theme" to uri.toString())
 
-            map.containsKey("showRule") ->
-                successLive.postValue("dictRule" to uri.toString())
-
             map.containsKey("name") && map.containsKey("rule") ->
                 successLive.postValue("txtRule" to uri.toString())
 

@@ -78,7 +78,6 @@ class FileAssociationActivity :
                 "httpTts" -> showDialogFragment(ImportHttpTtsDialog(it.second, true))
                 "theme" -> showDialogFragment(ImportThemeDialog(it.second, true))
                 "txtRule" -> showDialogFragment(ImportTxtTocRuleDialog(it.second, true))
-                "dictRule" -> showDialogFragment(ImportDictRuleDialog(it.second, true))
             }
         }
         viewModel.errorLive.observe(this) {

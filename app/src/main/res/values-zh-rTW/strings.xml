@@ -161,8 +161,6 @@
     <string name="can_not_open">無法打開</string>
     <string name="can_not_share">分享失敗</string>
     <string name="no_chapter">無章節</string>
-    <string name="add_url">新增網址</string>
-    <string name="add_book_url">新增書籍網址</string>
     <string name="background">背景</string>
     <string name="author">作者</string>
     <string name="author_show">作者：%s</string>
@@ -870,7 +868,6 @@
     <string name="export_file_name">匯出檔案名</string>
     <string name="reset">重設</string>
     <string name="null_url">url為空</string>
-    <string name="dict">字典</string>
     <string name="unknown_error">未知錯誤</string>
     <string name="autobackup_fail">自動備份失敗\n%s</string>
     <string name="end">結束</string>
@@ -1004,7 +1001,6 @@
     <string name="download_book_success">下載成功</string>
     <string name="download_book_fail">下載失敗</string>
     <string name="upload_to_remote">上傳</string>
-    <string name="add_remote_book">远程書籍</string>
     <string name="bitmap_cache_size_summary">目前最大快取 %1$s MB</string>
     <string name="bitmap_cache_size">圖片繪製快取</string>
     <string name="image_retain_number_summary">保留已讀章節數量 %s</string>
@@ -1014,7 +1010,6 @@
     <string name="error_decode_bitmap">圖片解碼失敗</string>
     <string name="error_image_url_empty">圖片連結為空，檢查取代淨化規則</string>
     <string name="variable_comment">變數說明(variableComment)</string>
-    <string name="remote_book">遠端書籍</string>
     <string name="reading_time_sort">閱讀時長排序</string>
     <string name="last_read_time_sort">閱讀時間排序</string>
     <string name="reading_time_tag">閱讀時長：</string>
@@ -1086,13 +1081,8 @@
     <string name="clear_webview_data">清除 WebView 数据</string>
     <string name="clear_webview_data_summary">清除内置浏览器所有数据</string>
     <string name="source_tab_list">列表</string>
-    <string name="dict_rule">字典规则</string>
-    <string name="config_dict_rule">配置字典规则</string>
     <string name="create">新建</string>
-    <string name="url_rule">url规则(urlRule)</string>
-    <string name="show_rule">显示规则(showRule)</string>
     <string name="config_txt_toc_rule">配置 TXT 目录规则</string>
-    <string name="import_dict_rule">导入字典规则</string>
     <string name="keep_group">保留分组</string>
     <string name="server_config">服务器配置</string>
     <string name="sure_upload">远程webDav链接已存在，是否继续</string>

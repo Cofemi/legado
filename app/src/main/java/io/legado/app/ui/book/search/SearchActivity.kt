@@ -89,14 +89,7 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
     private var menu: Menu? = null
     private var historyFlowJob: Job? = null
     private var booksFlowJob: Job? = null
-    private var precisionSearchMenuItem: MenuItem? = null
     private var sortSearchResultsMenuItem: MenuItem? = null
-    private var filterBookNameMenuItem: MenuItem? = null
-    private var filterAuthorMenuItem: MenuItem? = null
-    private var filterTextMenuItem: MenuItem? = null
-    private var filterAudioMenuItem: MenuItem? = null
-    private var filterImageMenuItem: MenuItem? = null
-    private var filterWebFileMenuItem: MenuItem? = null
     private var isManualStopSearch = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -116,37 +109,33 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
     override fun onCompatCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.book_search, menu)
         this.menu = menu
-        precisionSearchMenuItem = menu.findItem(R.id.menu_precision_search)
-        precisionSearchMenuItem?.isChecked = getPrefBoolean(PreferKey.precisionSearch)
         sortSearchResultsMenuItem = menu.findItem(R.id.menu_sort_search_results)
         sortSearchResultsMenuItem?.isChecked = getPrefBoolean(PreferKey.sortSearchResults, true)
-        filterBookNameMenuItem = menu.findItem(R.id.menu_filter_book_name)
-        filterBookNameMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookName, true)
-        filterAuthorMenuItem = menu.findItem(R.id.menu_filter_author)
-        filterAuthorMenuItem?.isChecked = getPrefBoolean(PreferKey.filterAuthor, true)
-        filterTextMenuItem = menu.findItem(R.id.menu_filter_text)
-        filterTextMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeText, true)
-        filterAudioMenuItem = menu.findItem(R.id.menu_filter_audio)
-        filterAudioMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeAudio, true)
-        filterImageMenuItem = menu.findItem(R.id.menu_filter_image)
-        filterImageMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeImage, true)
-        filterWebFileMenuItem = menu.findItem(R.id.menu_filter_web_file)
-        filterWebFileMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
+        upSearchFilterModeChecked(menu)
         return super.onCompatCreateOptionsMenu(menu)
     }
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
+        upSearchFilterModeChecked(menu)
         return super.onMenuOpened(featureId, menu)
     }
 
     override fun onCompatOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_precision_search -> {
-                putPrefBoolean(
-                    PreferKey.precisionSearch,
-                    !getPrefBoolean(PreferKey.precisionSearch)
-                )
-                precisionSearchMenuItem?.isChecked = getPrefBoolean(PreferKey.precisionSearch)
+            R.id.menu_filter_book_name -> {
+                putPrefString(PreferKey.searchFilterMode, PreferKey.searchFilterModeName)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+            R.id.menu_filter_author -> {
+                putPrefString(PreferKey.searchFilterMode, PreferKey.searchFilterModeAuthor)
+                searchView.query?.toString()?.trim()?.let {
+                    searchView.setQuery(it, true)
+                }
+            }
+            R.id.menu_no_filter -> {
+                putPrefString(PreferKey.searchFilterMode, PreferKey.searchFilterModeNone)
                 searchView.query?.toString()?.trim()?.let {
                     searchView.setQuery(it, true)
                 }
@@ -161,76 +150,22 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
                     searchView.setQuery(it, true)
                 }
             }
-            R.id.menu_filter_book_name -> {
-                putPrefBoolean(
-                    PreferKey.filterBookName,
-                    !getPrefBoolean(PreferKey.filterBookName, true)
-                )
-                filterBookNameMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookName, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
-            R.id.menu_filter_author -> {
-                putPrefBoolean(
-                    PreferKey.filterAuthor,
-                    !getPrefBoolean(PreferKey.filterAuthor, true)
-                )
-                filterAuthorMenuItem?.isChecked = getPrefBoolean(PreferKey.filterAuthor, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
-
-            R.id.menu_filter_text -> {
-                putPrefBoolean(
-                    PreferKey.filterBookTypeText,
-                    !getPrefBoolean(PreferKey.filterBookTypeText, true)
-                )
-                filterTextMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeText, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
-
-            R.id.menu_filter_audio -> {
-                putPrefBoolean(
-                    PreferKey.filterBookTypeAudio,
-                    !getPrefBoolean(PreferKey.filterBookTypeAudio, true)
-                )
-                filterAudioMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeAudio, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
-
-            R.id.menu_filter_image -> {
-                putPrefBoolean(
-                    PreferKey.filterBookTypeImage,
-                    !getPrefBoolean(PreferKey.filterBookTypeImage, true)
-                )
-                filterImageMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeImage, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
-
-            R.id.menu_filter_web_file -> {
-                putPrefBoolean(
-                    PreferKey.filterBookTypeWebFile,
-                    !getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
-                )
-                filterWebFileMenuItem?.isChecked = getPrefBoolean(PreferKey.filterBookTypeWebFile, true)
-                searchView.query?.toString()?.trim()?.let {
-                    searchView.setQuery(it, true)
-                }
-            }
 
             R.id.menu_search_scope -> alertSearchScope()
             R.id.menu_filter_keywords -> alertFilterKeywords()
             R.id.menu_log -> showDialogFragment(AppLogDialog())
         }
         return super.onCompatOptionsItemSelected(item)
+    }
+
+    /**
+     * 更新搜索过滤模式选中状态(书名过滤/作者过滤/不过滤, 互斥单选)
+     */
+    private fun upSearchFilterModeChecked(menu: Menu) {
+        val mode = getPrefString(PreferKey.searchFilterMode, PreferKey.searchFilterModeNone)
+        menu.findItem(R.id.menu_filter_book_name)?.isChecked = mode == PreferKey.searchFilterModeName
+        menu.findItem(R.id.menu_filter_author)?.isChecked = mode == PreferKey.searchFilterModeAuthor
+        menu.findItem(R.id.menu_no_filter)?.isChecked = mode == PreferKey.searchFilterModeNone
     }
 
     private fun initSearchView() {
@@ -483,13 +418,18 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         viewModel.searchFinishLiveData.observe(this) { isEmpty ->
             if (!isEmpty || viewModel.searchScope.isAll()) return@observe
             alert("搜索结果为空") {
-                val precisionSearch = appCtx.getPrefBoolean(PreferKey.precisionSearch)
+                val searchFilterMode = appCtx.getPrefString(
+                    PreferKey.searchFilterMode, PreferKey.searchFilterModeNone
+                )
                 val displayScope = viewModel.searchScope.display
-                if (precisionSearch) {
+                if (searchFilterMode == PreferKey.searchFilterModeName ||
+                    searchFilterMode == PreferKey.searchFilterModeAuthor
+                ) {
                     setMessage("${displayScope}分组搜索结果为空，是否关闭精准搜索？")
                     yesButton {
-                        appCtx.putPrefBoolean(PreferKey.precisionSearch, false)
-                        precisionSearchMenuItem?.isChecked = false
+                        appCtx.putPrefString(
+                            PreferKey.searchFilterMode, PreferKey.searchFilterModeNone
+                        )
                         viewModel.searchKey = ""
                         viewModel.search(searchView.query.toString())
                     }
