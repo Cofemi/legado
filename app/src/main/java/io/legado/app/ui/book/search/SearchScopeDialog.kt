@@ -111,6 +111,22 @@ class SearchScopeDialog : BaseDialogFragment(R.layout.dialog_search_scope) {
             groups = withContext(IO) {
                 appDb.bookSourceDao.allEnabledGroups()
             }
+            // 恢复当前选中的搜索范围
+            val scope = callback.getSearchScope().toString()
+            when {
+                scope.contains("::") -> {
+                    binding.rbSource.isChecked = true
+                    adapter.selectSource = withContext(IO) {
+                        appDb.bookSourceDao.getBookSourcePart(scope.substringAfter("::"))
+                    }
+                }
+
+                scope.isNotEmpty() -> {
+                    binding.rbGroup.isChecked = true
+                    adapter.selectGroups.clear()
+                    adapter.selectGroups.addAll(scope.split(","))
+                }
+            }
             upData()
         }
     }
@@ -249,6 +265,11 @@ class SearchScopeDialog : BaseDialogFragment(R.layout.dialog_search_scope) {
          * 搜索范围确认
          */
         fun onSearchScopeOk(searchScope: SearchScope)
+
+        /**
+         * 获取当前搜索范围
+         */
+        fun getSearchScope(): SearchScope
 
     }
 

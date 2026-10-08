@@ -65,7 +65,7 @@ val appDb by lazy {
 }
 
 @Database(
-    version = 75,
+    version = 77,
     exportSchema = true,
     entities = [Book::class, BookGroup::class, BookSource::class, BookChapter::class,
         ReplaceRule::class, SearchBook::class, SearchKeyword::class, Cookie::class,
@@ -106,6 +106,8 @@ val appDb by lazy {
         AutoMigration(from = 72, to = 73),
         AutoMigration(from = 73, to = 74),
         AutoMigration(from = 74, to = 75, spec = DatabaseMigrations.Migration_74_75::class),
+        AutoMigration(from = 75, to = 76),
+        AutoMigration(from = 76, to = 77),
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

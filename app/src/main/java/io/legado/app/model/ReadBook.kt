@@ -98,6 +98,7 @@ object ReadBook : CoroutineScope by MainScope() {
     fun resetData(book: Book) {
         ReadBook.book = book
         readRecord.bookName = book.name
+        readRecord.sourceUrl = book.origin
         readRecord.readTime = appDb.readRecordDao.getReadTime(book.name) ?: 0
         chapterSize = appDb.bookChapterDao.getChapterCount(book.bookUrl)
         simulatedChapterSize = if (book.readSimulating()) {
@@ -288,6 +289,10 @@ object ReadBook : CoroutineScope by MainScope() {
             readRecord.readTime = readRecord.readTime + System.currentTimeMillis() - readStartTime
             readStartTime = System.currentTimeMillis()
             readRecord.lastRead = System.currentTimeMillis()
+            readRecord.sourceUrl = book?.origin ?: ""
+            readRecord.durChapterIndex = durChapterIndex
+            readRecord.durChapterPos = durChapterPos
+            readRecord.durChapterTitle = curTextChapter?.title ?: ""
             appDb.readRecordDao.insert(readRecord)
         }
     }

@@ -12,9 +12,12 @@ interface ReadRecordDao {
 
     @get:Query(
         """
-        select bookName, sum(readTime) as readTime, max(lastRead) as lastRead 
-        from readRecord 
-        group by bookName 
+        select bookName, sum(readTime) as readTime, max(lastRead) as lastRead,
+        (select sourceUrl from readRecord where bookName = r.bookName order by lastRead desc limit 1) as sourceUrl,
+        (select durChapterIndex from readRecord where bookName = r.bookName order by lastRead desc limit 1) as durChapterIndex,
+        (select durChapterTitle from readRecord where bookName = r.bookName order by lastRead desc limit 1) as durChapterTitle
+        from readRecord r
+        group by bookName
         order by bookName collate localized"""
     )
     val allShow: List<ReadRecordShow>
@@ -24,10 +27,13 @@ interface ReadRecordDao {
 
     @Query(
         """
-        select bookName, sum(readTime) as readTime, max(lastRead) as lastRead 
-        from readRecord 
+        select bookName, sum(readTime) as readTime, max(lastRead) as lastRead,
+        (select sourceUrl from readRecord where bookName = r.bookName order by lastRead desc limit 1) as sourceUrl,
+        (select durChapterIndex from readRecord where bookName = r.bookName order by lastRead desc limit 1) as durChapterIndex,
+        (select durChapterTitle from readRecord where bookName = r.bookName order by lastRead desc limit 1) as durChapterTitle
+        from readRecord r
         where bookName like '%' || :searchKey || '%'
-        group by bookName 
+        group by bookName
         order by bookName collate localized"""
     )
     fun search(searchKey: String): List<ReadRecordShow>

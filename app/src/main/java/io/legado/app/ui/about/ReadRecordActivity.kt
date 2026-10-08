@@ -27,6 +27,7 @@ import io.legado.app.utils.getInt
 import io.legado.app.utils.putInt
 import io.legado.app.utils.startActivityForBook
 import io.legado.app.utils.viewbindingdelegate.viewBinding
+import io.legado.app.utils.visible
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -177,6 +178,15 @@ class ReadRecordActivity : BaseActivity<ActivityReadRecordBinding>() {
                 } else {
                     tvLastReadTime.text = ""
                 }
+                tvProgress.text = when {
+                    item.durChapterTitle.isNotBlank() -> item.durChapterTitle
+                    item.durChapterIndex > 0 -> "第${item.durChapterIndex + 1}章"
+                    else -> ""
+                }
+                tvProgress.visible(tvProgress.text.isNotBlank())
+                tvSource.text = appDb.bookSourceDao.getBookSource(item.sourceUrl)
+                    ?.bookSourceName ?: ""
+                tvSource.visible(tvSource.text.isNotBlank())
             }
         }
 
@@ -189,7 +199,7 @@ class ReadRecordActivity : BaseActivity<ActivityReadRecordBinding>() {
                             appDb.bookDao.findByName(item.bookName).firstOrNull()
                         }
                         if (book == null) {
-                            SearchActivity.start(this@ReadRecordActivity, item.bookName)
+                            SearchActivity.start(this@ReadRecordActivity, item.bookName, item.sourceUrl)
                         } else {
                             startActivityForBook(book)
                         }

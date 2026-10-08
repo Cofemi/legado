@@ -308,6 +308,19 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
      * 处理传入数据
      */
     private fun receiptIntent(intent: Intent? = null) {
+        // 恢复指定书源(搜索范围), 传入的是书源URL, 需转换为"书源名::url"格式
+        intent?.getStringExtra("sourceUrl")?.let {
+            if (it.isNotEmpty()) {
+                val scope = if (it.contains("::")) {
+                    it
+                } else {
+                    appDb.bookSourceDao.getBookSource(it)?.let { source ->
+                        SearchScope(source).toString()
+                    } ?: it
+                }
+                viewModel.searchScope.update(scope)
+            }
+        }
         val searchScope = intent?.getStringExtra("searchScope")
         searchScope?.let {
             viewModel.searchScope.update(searchScope, false)
@@ -416,30 +429,10 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
             adapter.notifyItemRangeChanged(0, adapter.itemCount, bundleOf(it to null))
         }
         viewModel.searchFinishLiveData.observe(this) { isEmpty ->
-            if (!isEmpty || viewModel.searchScope.isAll()) return@observe
-            alert("搜索结果为空") {
-                val searchFilterMode = appCtx.getPrefString(
-                    PreferKey.searchFilterMode, PreferKey.searchFilterModeNone
-                )
-                val displayScope = viewModel.searchScope.display
-                if (searchFilterMode == PreferKey.searchFilterModeName ||
-                    searchFilterMode == PreferKey.searchFilterModeAuthor
-                ) {
-                    setMessage("${displayScope}分组搜索结果为空，是否关闭精准搜索？")
-                    yesButton {
-                        appCtx.putPrefString(
-                            PreferKey.searchFilterMode, PreferKey.searchFilterModeNone
-                        )
-                        viewModel.searchKey = ""
-                        viewModel.search(searchView.query.toString())
-                    }
-                } else {
-                    setMessage("${displayScope}分组搜索结果为空，是否切换到全部分组？")
-                    yesButton {
-                        viewModel.searchScope.update("")
-                    }
+            if (isEmpty) {
+                alert("搜索结果为空") {
+                    yesButton()
                 }
-                noButton()
             }
         }
     }
@@ -502,6 +495,10 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
         viewModel.searchScope.update(searchScope.toString())
     }
 
+    override fun getSearchScope(): SearchScope {
+        return viewModel.searchScope
+    }
+
     private fun alertSearchScope() {
         showDialogFragment<SearchScopeDialog>()
     }
@@ -555,9 +552,10 @@ class SearchActivity : VMBaseActivity<ActivityBookSearchBinding, SearchViewModel
 
     companion object {
 
-        fun start(context: Context, key: String?) {
+        fun start(context: Context, key: String?, sourceUrl: String? = null) {
             context.startActivity<SearchActivity> {
                 putExtra("key", key)
+                putExtra("sourceUrl", sourceUrl)
             }
         }
 
