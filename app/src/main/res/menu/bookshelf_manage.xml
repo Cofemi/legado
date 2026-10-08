@@ -12,6 +12,10 @@
 
         <menu>
 
+            <item
+                android:id="@+id/menu_group_manage"
+                android:title="@string/group_manage" />
+
         </menu>
 
     </item>
